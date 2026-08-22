@@ -82,7 +82,6 @@ export default function BookingForm() {
       return
     }
 
-    // Format date string as YYYY-MM-DD
     const formattedDateISO = date.toISOString().split("T")[0]
     const formattedDateReadable = date.toLocaleDateString("en-KE", {
       weekday: "short",
@@ -92,7 +91,6 @@ export default function BookingForm() {
     })
 
     try {
-      // 1. SAVE TO SUPABASE DATABASE
       const { error } = await supabase.from("appointments").insert({
         client_name: name,
         client_phone: phone,
@@ -105,7 +103,6 @@ export default function BookingForm() {
 
       if (error) throw error
 
-      // 2. OPEN WHATSAPP CHAT
       if (whatsappConfirm) {
         const message = `*NEW BOOKING REQUEST — FINESSE PARKLANDS*
 ----------------------------------------
@@ -255,38 +252,17 @@ _Hi, I have just booked on your portal and would like to confirm my appointment.
                     <CalendarIcon className="w-3.5 h-3.5 text-[#55624C]" /> Select Date
                   </Label>
                   <div className="border border-[#2A2A28] rounded-2xl bg-[#1A1A18] p-4 flex justify-center text-[#FBF9F5]">
-                  <Calendar
-  mode="single"
-  selected={date}
-  onSelect={setDate}
-  disabled={(d) => {
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    return d < today
-  }}
-  className="rounded-md bg-[#121212] border-0 text-[#FBF9F5]"
-  classNames={{
-    months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
-    month: "space-y-4",
-    caption: "flex justify-center pt-1 relative items-center text-[#FBF9F5]",
-    caption_label: "text-sm font-medium text-[#FBF9F5]",
-    nav: "space-x-1 flex items-center",
-    nav_button: "h-7 w-7 bg-transparent p-0 opacity-70 hover:opacity-100 text-[#FBF9F5] hover:bg-[#2A2A28] rounded-lg flex items-center justify-center",
-    nav_button_previous: "absolute left-1",
-    nav_button_next: "absolute right-1",
-    table: "w-full border-collapse space-y-1",
-    head_row: "flex",
-    head_cell: "text-[#A19D95] rounded-md w-9 font-normal text-[0.8rem]",
-    row: "flex w-full mt-2",
-    cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-[#55624C] rounded-lg focus-within:relative focus-within:z-20",
-    day: "h-9 w-9 p-0 font-normal text-[#FBF9F5] hover:bg-[#2A2A28] hover:text-[#FBF9F5] rounded-lg aria-selected:opacity-100 flex items-center justify-center transition-colors",
-    day_selected: "bg-[#55624C] text-[#FBF9F5] hover:bg-[#55624C] hover:text-[#FBF9F5] focus:bg-[#55624C] focus:text-[#FBF9F5] font-semibold",
-    day_today: "bg-[#2A2A28] text-[#FBF9F5]",
-    day_outside: "text-[#555555] opacity-50",
-    day_disabled: "text-[#444444] opacity-30",
-    day_hidden: "invisible",
-  }}
-/>
+                    <Calendar
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      disabled={(d) => {
+                        const today = new Date()
+                        today.setHours(0, 0, 0, 0)
+                        return d < today
+                      }}
+                      className="rounded-md bg-[#121212] border-0 text-[#FBF9F5]"
+                    />
                   </div>
                 </div>
 

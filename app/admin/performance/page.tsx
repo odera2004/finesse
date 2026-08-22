@@ -5,7 +5,7 @@ export default function PerformancePage() {
   return (
     <div className="space-y-6">
       <AdminHeader title="Financial Audit" subtitle="Revenue and performance metrics" />
-      <DashboardStats />
+      <DashboardStats isUnlocked={true} onUnlockClick={() => {}} />
     </div>
   )
 }
