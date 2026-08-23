@@ -1,30 +1,52 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
+import dynamic from "next/dynamic"
 import "leaflet/dist/leaflet.css"
-import L from "leaflet"
+import type L from "leaflet"
+
+// Dynamically import Leaflet components so they render strictly on the client
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+)
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+)
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+)
+const Popup = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Popup),
+  { ssr: false }
+)
 
 export default function LocationMap() {
   const [customIcon, setCustomIcon] = useState<L.Icon | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
 
   // Parklands, Nairobi coordinates
   const position: [number, number] = [-1.2618, 36.8155]
 
   useEffect(() => {
-    const icon = new L.Icon({
-      iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-      iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-      shadowSize: [41, 41],
+    setIsMounted(true)
+    import("leaflet").then((L) => {
+      const icon = new L.Icon({
+        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41],
+      })
+      setCustomIcon(icon)
     })
-    setCustomIcon(icon)
   }, [])
 
-  if (!customIcon) {
+  if (!isMounted || !customIcon) {
     return (
       <div className="h-[400px] w-full bg-[#F4F1EA] border border-[#E6E1D7] rounded-2xl animate-pulse flex items-center justify-center text-[#6B6862] text-sm font-sans">
         Loading Map...
