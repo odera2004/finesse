@@ -1,17 +1,7 @@
 import type { Metadata } from "next"
-import dynamic from "next/dynamic"
 import ContactForm from "@/components/contact/contact-form"
 import ContactInfo from "@/components/contact/contact-info"
-
-// Disable Server-Side Rendering (SSR) for LocationMap to prevent react-leaflet build crashes
-const LocationMap = dynamic(() => import("@/components/contact/location-map"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[400px] w-full bg-[#F4F1EA] border border-[#E6E1D7] rounded-2xl flex items-center justify-center text-[#6B6862] text-sm">
-      Loading Map...
-    </div>
-  ),
-})
+import LocationMap from "@/components/contact/location-map"
 
 export const metadata: Metadata = {
   title: "Contact Us - Studio 39 Salon",
