@@ -1,3 +1,4 @@
+import { Suspense } from "react"
 import type { Metadata } from "next"
 import ContactForm from "@/components/contact/contact-form"
 import ContactInfo from "@/components/contact/contact-info"
@@ -28,10 +29,14 @@ export default function ContactPage() {
         {/* Contact Info & Form Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <div className="bg-[#F4F1EA] p-8 md:p-10 rounded-3xl border border-[#E6E1D7] shadow-sm">
-            <ContactInfo />
+            <Suspense fallback={<div className="text-xs text-[#6B6862]">Loading contact info...</div>}>
+              <ContactInfo />
+            </Suspense>
           </div>
           <div className="bg-[#F4F1EA] p-8 md:p-10 rounded-3xl border border-[#E6E1D7] shadow-sm">
-            <ContactForm />
+            <Suspense fallback={<div className="text-xs text-[#6B6862]">Loading form...</div>}>
+              <ContactForm />
+            </Suspense>
           </div>
         </div>
 
@@ -46,7 +51,9 @@ export default function ContactPage() {
             </h2>
           </div>
           <div className="rounded-2xl overflow-hidden border border-[#E6E1D7]">
-            <LocationMap />
+            <Suspense fallback={<div className="h-64 flex items-center justify-center text-xs text-[#6B6862]">Loading map...</div>}>
+              <LocationMap />
+            </Suspense>
           </div>
         </div>
       </div>
