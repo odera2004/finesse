@@ -1,3 +1,5 @@
+"use client"
+
 import AdminHeader from "@/components/admin/admin-header"
 import DashboardStats from "@/components/admin/dashboard-stats"
 
